@@ -1,5 +1,5 @@
 resource "aws_iam_role" "lambda_role" {
-  name = "ml-defasagem-lambda-role"
+  name = "mlops-pipeline-lambda-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
