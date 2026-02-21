@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "lambdas/etl/**"
+      - "app_services/lambda/**"
 
 jobs:
   build-lambda:
