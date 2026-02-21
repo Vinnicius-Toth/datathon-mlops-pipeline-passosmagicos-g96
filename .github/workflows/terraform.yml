@@ -4,14 +4,10 @@ on:
   pull_request:
     branches:
       - main
-    paths:
-      - "infra/**"
 
   push:
     branches:
       - main
-    paths:
-      - "infra/**"
 
 jobs:
 
