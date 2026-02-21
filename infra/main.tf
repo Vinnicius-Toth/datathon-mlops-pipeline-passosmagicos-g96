@@ -6,30 +6,30 @@ module "s3" {
   tags            = local.common_tags
 }
 
-# module "vpc" {
-#   source      = "./modules/vpc"
-#   vpc_name    = local.vpc_name
-#   subnet_name = local.subnet_name
-#   tags        = local.common_tags
-# }
+module "vpc" {
+  source      = "./modules/vpc"
+  vpc_name    = local.vpc_name
+  subnet_name = local.subnet_name
+  tags        = local.common_tags
+}
 
-# module "security" {
-#   source   = "./modules/security"
-#   vpc_id   = module.vpc.vpc_id
-#   sg_name  = local.sg_name
-#   tags     = local.common_tags
-# }
+module "security" {
+  source   = "./modules/security"
+  vpc_id   = module.vpc.vpc_id
+  sg_name  = local.sg_name
+  tags     = local.common_tags
+}
 
-# module "iam" {
-#   source = "./modules/iam"
-# }
+module "iam" {
+  source = "./modules/iam"
+}
 
-# module "lambda" {
-#   source            = "./modules/lambda"
-#   lambda_name       = local.lambda_name
-#   lambda_role_arn   = module.iam.lambda_role_arn
-#   tags              = local.common_tags
-# }
+module "lambda" {
+  source            = "./modules/lambda"
+  lambda_name       = local.lambda_name
+  lambda_role_arn   = module.iam.lambda_role_arn
+  tags              = local.common_tags
+}
 
 # module "ecr" {
 #   source    = "./modules/ecr"
