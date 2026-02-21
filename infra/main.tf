@@ -1,3 +1,11 @@
+module "s3" {
+  source          = "./modules/s3"
+  raw_bucket      = local.s3_raw_name
+  gold_bucket     = local.s3_gold_name
+  model_bucket    = local.s3_model_name
+  tags            = local.common_tags
+}
+
 # module "vpc" {
 #   source      = "./modules/vpc"
 #   vpc_name    = local.vpc_name
@@ -11,14 +19,6 @@
 #   sg_name  = local.sg_name
 #   tags     = local.common_tags
 # }
-
-module "s3" {
-  source          = "./modules/s3"
-  raw_bucket      = local.s3_raw_name
-  gold_bucket     = local.s3_gold_name
-  model_bucket    = local.s3_model_name
-  tags            = local.common_tags
-}
 
 # module "iam" {
 #   source = "./modules/iam"
