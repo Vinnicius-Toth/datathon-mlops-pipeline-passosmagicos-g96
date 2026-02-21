@@ -32,17 +32,19 @@ module "lambda" {
   lambda_code_key     = "lambda/handler.zip"
   tags                = local.common_tags
 }
-# module "ecr" {
-#   source    = "./modules/ecr"
-#   repo_name = local.ecr_repo_name
-#   tags      = local.common_tags
-# }
 
-# module "ec2" {
-#   source            = "./modules/ec2"
-#   instance_name     = local.ec2_name
-#   ami_id            = var.ami_id
-#   subnet_id         = module.vpc.public_subnet_id
-#   security_group_id = module.security.security_group_id
-#   tags              = local.common_tags
-# }
+module "ecr" {
+  source          = "./modules/ecr"
+  repository_name = local.ecr_name
+  tags            = local.common_tags
+}
+
+module "ec2" {
+  source            = "./modules/ec2"
+  instance_name     = local.ec2_name
+  ami_id            = "ami-0c02fb55956c7d316" # Amazon Linux 2 (us-east-2)
+  instance_type     = "t3.micro"
+  subnet_id         = module.vpc.public_subnet_id
+  security_group_id = module.security.security_group_id
+  tags              = local.common_tags
+}
