@@ -42,7 +42,6 @@ module "ecr" {
 module "ec2" {
   source            = "./modules/ec2"
   instance_name     = local.ec2_name
-  ami_id            = "ami-0c02fb55956c7d316" # Amazon Linux 2 (us-east-2)
   instance_type     = "t3.micro"
   subnet_id         = module.vpc.public_subnet_id
   security_group_id = module.security.security_group_id

@@ -1,5 +1,20 @@
+data "aws_ami" "amazon_linux" {
+  most_recent = true
+  owners      = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+
 resource "aws_instance" "this" {
-  ami                         = var.ami_id
+  ami                         = data.aws_ami.amazon_linux.id
   instance_type               = var.instance_type
   subnet_id                   = var.subnet_id
   vpc_security_group_ids      = [var.security_group_id]
@@ -7,10 +22,10 @@ resource "aws_instance" "this" {
 
   user_data = <<-EOF
               #!/bin/bash
-              sudo yum update -y
-              sudo yum install -y docker
-              sudo service docker start
-              sudo usermod -a -G docker ec2-user
+              yum update -y
+              yum install -y docker
+              service docker start
+              usermod -a -G docker ec2-user
               EOF
 
   tags = merge(
