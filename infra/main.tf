@@ -25,12 +25,13 @@ module "iam" {
 }
 
 module "lambda" {
-  source            = "./modules/lambda"
-  lambda_name       = local.lambda_name
-  lambda_role_arn   = module.iam.lambda_role_arn
-  tags              = local.common_tags
+  source              = "./modules/lambda"
+  lambda_name         = local.lambda_name
+  lambda_role_arn     = module.iam.lambda_role_arn
+  lambda_code_bucket  = "mlops-pipeline-passosmagicos-artifacts"
+  lambda_code_key     = "lambda/handler.zip"
+  tags                = local.common_tags
 }
-
 # module "ecr" {
 #   source    = "./modules/ecr"
 #   repo_name = local.ecr_repo_name
