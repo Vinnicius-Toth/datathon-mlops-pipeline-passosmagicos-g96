@@ -28,9 +28,9 @@ jobs:
       - name: Build Lambda package
         run: |
           cd app_services/lambda
-          zip -r etl.zip .
+          zip -r handler.zip .
 
       - name: Upload to S3
         run: |
           aws s3 cp app_services/lambda/handler.zip \
-            s3://${{ secrets.LAMBDA_CODE_BUCKET }}/lambda/etl.zip
+            s3://mlops-pipeline-passosmagicos-artifacts/lambda/handler.zip
