@@ -14,9 +14,57 @@ resource "aws_iam_role" "lambda_role" {
   })
 }
 
+# Permissão básica para logs
 resource "aws_iam_role_policy_attachment" "lambda_basic" {
   role       = aws_iam_role.lambda_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
+# Policy para acesso ao S3
+resource "aws_iam_policy" "lambda_s3_policy" {
+  name = "mlops-pipeline-lambda-s3-policy"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:ListBucket"
+        ]
+        Resource = [
+          "arn:aws:s3:::mlops-pipeline-passosmagicos-prod-raw"
+        ]
+      },
+
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:GetObject"
+        ]
+        Resource = [
+          "arn:aws:s3:::mlops-pipeline-passosmagicos-prod-raw/*"
+        ]
+      },
+
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:PutObject"
+        ]
+        Resource = [
+          "arn:aws:s3:::mlops-pipeline-passosmagicos-prod-gold/*"
+        ]
+      }
+
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_s3_attach" {
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = aws_iam_policy.lambda_s3_policy.arn
 }
 
 
