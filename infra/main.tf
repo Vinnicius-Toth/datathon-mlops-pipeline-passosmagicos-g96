@@ -45,5 +45,6 @@ module "ec2" {
   instance_type     = "t3.micro"
   subnet_id         = module.vpc.public_subnet_id
   security_group_id = module.security.security_group_id
+  iam_instance_profile = module.iam.ec2_instance_profile_name
   tags              = local.common_tags
 }

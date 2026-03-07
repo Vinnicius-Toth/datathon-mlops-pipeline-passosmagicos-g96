@@ -5,3 +5,7 @@ variable "security_group_id" {}
 variable "tags" {
   type = map(string)
 }
+variable "iam_instance_profile" {
+  description = "IAM Instance Profile for EC2"
+  type        = string
+}
