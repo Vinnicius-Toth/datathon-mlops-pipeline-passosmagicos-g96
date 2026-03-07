@@ -7,7 +7,7 @@ on:
 
 env:
   AWS_REGION: us-east-2
-  ECR_REPOSITORY: infra-api
+  ECR_REPOSITORY: mlops-pipeline-passosmagicos-prod-api
 
 jobs:
   build-and-push:
