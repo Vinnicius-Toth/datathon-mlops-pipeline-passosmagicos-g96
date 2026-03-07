@@ -18,7 +18,6 @@ from config import (
 from data import load_data
 from evaluate import evaluate_model
 
-
 def train():
 
     print("Carregando dados...")
