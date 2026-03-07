@@ -7,6 +7,7 @@ resource "aws_lambda_function" "this" {
   s3_bucket = var.lambda_code_bucket
   s3_key    = var.lambda_code_key
 
+  memory_size = 1024
   timeout = 300
 
   tags = var.tags

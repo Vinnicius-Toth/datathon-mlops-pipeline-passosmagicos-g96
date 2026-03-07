@@ -1,6 +1,5 @@
 import pandas as pd
 
-
 def preprocess(df):
 
     # corrigir decimais
