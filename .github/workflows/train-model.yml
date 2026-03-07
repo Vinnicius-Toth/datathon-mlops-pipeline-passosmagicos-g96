@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "ml/**"
+      - "app_services/ml/**"
 
 jobs:
   train:
