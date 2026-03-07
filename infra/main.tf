@@ -35,7 +35,7 @@ module "lambda" {
 
 module "ecr" {
   source          = "./modules/ecr"
-  repository_name = local.ecr_repo_name
+  repository_name = "infra-api"
   tags            = local.common_tags
 }
 
