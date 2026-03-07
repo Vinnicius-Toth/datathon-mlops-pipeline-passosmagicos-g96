@@ -18,7 +18,6 @@ def lambda_handler(event, context):
         df=df_clean,
         path=f"s3://{bucket_gold}/gold/features_dataset/",
         dataset=True,
-        partition_cols=["ANO"],
         mode="overwrite"
     )
 
