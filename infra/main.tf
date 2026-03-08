@@ -4,9 +4,6 @@ module "s3" {
   gold_bucket  = local.s3_gold_name
   model_bucket = local.s3_model_name
   tags         = local.common_tags
-
-  lambda_arn                   = module.lambda.lambda_arn
-  aws_lambda_permission  = aws_lambda_permission.allow_s3
 }
 
 module "vpc" {
@@ -42,6 +39,20 @@ resource "aws_lambda_permission" "allow_s3" {
   function_name = module.lambda.lambda_name
   principal     = "s3.amazonaws.com"
   source_arn    = module.s3.raw_bucket_arn
+}
+
+resource "aws_s3_bucket_notification" "raw_trigger" {
+  bucket = module.s3.raw_bucket_id
+
+  lambda_function {
+    lambda_function_arn = module.lambda.lambda_arn
+    events              = ["s3:ObjectCreated:*"]
+    filter_prefix       = "raw/"
+  }
+
+  depends_on = [
+    aws_lambda_permission.allow_s3
+  ]
 }
 
 
