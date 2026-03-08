@@ -6,6 +6,7 @@ on:
       - "feature/**"
 
 jobs:
+
   test:
     runs-on: ubuntu-latest
 
@@ -16,11 +17,14 @@ jobs:
         with:
           python-version: "3.11"
 
-      - run: |
+      - name: Install dependencies
+        run: |
           pip install -r requirements-test.txt
 
-      - run: pytest --cov=app_services --cov-report=term --cov-fail-under=80
-      
+      - name: Run tests with coverage
+        run: pytest --cov=app_services --cov-report=term --cov-fail-under=80
+
+
   create-pr:
     needs: test
     if: success()
@@ -32,12 +36,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Create PR
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GH_PAT }}
-          base: main
-          branch: ${{ github.ref_name }}
-          title: "Feature: ${{ github.ref_name }}"
-          body: |
-            PR criada automaticamente após testes com cobertura ≥ 80%.
+      - name: Create Pull Request if not exists
+        run: |
+          echo "Checking if PR already exists..."
+
+          if gh pr list --head "${{ github.ref_name }}" --base main --json number --jq 'length' | grep -q "1"; then
+            echo "PR already exists for this branch."
+          else
+            echo "Creating PR..."
+            gh pr create \
+              --base main \
+              --head "${{ github.ref_name }}" \
+              --title "Feature: ${{ github.ref_name }}" \
+              --body "PR criada automaticamente após aprovação dos testes (coverage ≥ 80%)."
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
