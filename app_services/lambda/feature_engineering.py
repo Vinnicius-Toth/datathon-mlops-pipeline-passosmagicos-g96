@@ -42,7 +42,6 @@ def preprocess(df):
 
     # Definir features finais
     features = [
-        "ano",
         "idade_22",
         "inde_22",
         "iaa",
