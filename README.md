@@ -68,7 +68,10 @@ Construção de uma arquitetura completa de MLOps contendo:
 
 ---
 
-# 🗂️ 2) Estrutura do Projeto
+# 🏛️ 2) Desenho de Arquitetura
+![alt text](docs/Arquitetura_Datathon_ML_PassosMagicos.png)
+
+# 🗂️ 3) Estrutura do Projeto
 
 ~~~
 datathon-mlops-pipeline-passosmagicos-g96/
@@ -127,7 +130,7 @@ datathon-mlops-pipeline-passosmagicos-g96/
 
 ---
 
-# ⚙️ 3) Instruções de Deploy
+# ⚙️ 4) Instruções de Deploy
 
 ## 🔧 Pré-requisitos
 
@@ -141,15 +144,12 @@ datathon-mlops-pipeline-passosmagicos-g96/
 
 ## 📦 Instalação de Dependências
 
-```bash
-## 📦 Instalação de Dependências
-
+📦 Instalação de Dependências
 ```bash
 pip install -r requirements.txt
 ```
 
 Para testes:
-
 ```bash
 pip install -r requirements-test.txt
 ```
@@ -203,7 +203,7 @@ A API também está disponível em ambiente produtivo:
 
 http://3.19.241.130:8000/docs/
 
-## 🌍 4) Exemplos de Chamadas à API
+## 🌍 5) Exemplos de Chamadas à API
 
 ### 📌 Endpoint
 
@@ -239,7 +239,7 @@ curl -X POST "http://SEU_IP_PUBLICO:8000/predict" \
 }
 ```
 
-## 🔄 5) Etapas do Pipeline de Machine Learning
+## 🔄 6) Etapas do Pipeline de Machine Learning
 
 ### 🧹 1. Pré-processamento dos Dados
 
