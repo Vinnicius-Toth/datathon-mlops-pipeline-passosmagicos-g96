@@ -1,9 +1,12 @@
 module "s3" {
-  source          = "./modules/s3"
-  raw_bucket      = local.s3_raw_name
-  gold_bucket     = local.s3_gold_name
-  model_bucket    = local.s3_model_name
-  tags            = local.common_tags
+  source       = "./modules/s3"
+  raw_bucket   = local.s3_raw_name
+  gold_bucket  = local.s3_gold_name
+  model_bucket = local.s3_model_name
+  tags         = local.common_tags
+
+  lambda_arn                   = module.lambda.lambda_arn
+  lambda_permission_dependency  = aws_lambda_permission.allow_s3
 }
 
 module "vpc" {
@@ -32,6 +35,15 @@ module "lambda" {
   lambda_code_key     = "lambda/handler.zip"
   tags                = local.common_tags
 }
+
+resource "aws_lambda_permission" "allow_s3" {
+  statement_id  = "AllowExecutionFromS3"
+  action        = "lambda:InvokeFunction"
+  function_name = module.lambda.lambda_name
+  principal     = "s3.amazonaws.com"
+  source_arn    = module.s3.raw_bucket_arn
+}
+
 
 module "ecr" {
   source          = "./modules/ecr"
