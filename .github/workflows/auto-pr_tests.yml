@@ -1,4 +1,4 @@
-name: Auto Create PR for Feature Branch
+name: Tests + Auto PR
 
 on:
   push:
@@ -6,15 +6,35 @@ on:
       - "feature/**"
 
 jobs:
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements-test.txt
+
+      - name: Run tests with coverage
+        run: pytest --cov=app_services --cov-report=term --cov-fail-under=80
+
+
   create-pr:
+    needs: test
+    if: success()
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Create Pull Request if not exists
         run: |
@@ -28,7 +48,7 @@ jobs:
               --base main \
               --head "${{ github.ref_name }}" \
               --title "Feature: ${{ github.ref_name }}" \
-              --body "PR criada automaticamente para integração na main."
+              --body "PR criada automaticamente após aprovação dos testes (coverage ≥ 80%)."
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
