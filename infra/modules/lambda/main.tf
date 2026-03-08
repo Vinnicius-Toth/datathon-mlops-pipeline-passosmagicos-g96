@@ -12,11 +12,3 @@ resource "aws_lambda_function" "this" {
 
   tags = var.tags
 }
-
-resource "aws_lambda_permission" "allow_s3" {
-  statement_id  = "AllowExecutionFromS3"
-  action        = "lambda:InvokeFunction"
-  function_name = module.lambda.lambda_name
-  principal     = "s3.amazonaws.com"
-  source_arn    = module.s3.raw_bucket_arn
-}
