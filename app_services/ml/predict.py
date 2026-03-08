@@ -6,14 +6,25 @@ def load_model(path="model.joblib"):
     return joblib.load(path)
 
 
-def predict(model, data: dict):
+@router.post("/predict")
+def predict(request: Request, payload: PredictionRequest):
 
-    df = pd.DataFrame([data])
+    try:
+        model = request.app.state.model
 
-    prediction = model.predict(df)[0]
-    probability = model.predict_proba(df)[0][1]
+        df = pd.DataFrame([payload.dict()])
 
-    return {
-        "risco_defasagem": int(prediction),
-        "probabilidade": float(probability)
-    }
+        print("Colunas recebidas:", df.columns)
+        print("Features esperadas:", model.feature_names_in_)
+
+        prediction = model.predict(df)[0]
+        probability = model.predict_proba(df)[0][1]
+
+        return {
+            "risco_defasagem": int(prediction),
+            "probabilidade": float(probability)
+        }
+
+    except Exception as e:
+        print("ERRO INTERNO:", e)
+        raise e
