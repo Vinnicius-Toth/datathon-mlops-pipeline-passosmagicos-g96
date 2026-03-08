@@ -1,5 +1,6 @@
 import pandas as pd
 import unicodedata
+import re
 
 
 def normalize_column_name(col: str) -> str:
@@ -8,19 +9,21 @@ def normalize_column_name(col: str) -> str:
     col = unicodedata.normalize("NFKD", col)
     col = col.encode("ascii", "ignore").decode("utf-8")
     col = col.lower()
+
+    # Remover sufixo _22, _23, _24 etc
+    col = re.sub(r"_\d{2}$", "", col)
+
     return col
 
 
 def preprocess(df):
 
-    # Padronizar nomes das colunas
     df.columns = [normalize_column_name(c) for c in df.columns]
 
-    # Corrigir separador decimal
     df = df.replace(",", ".", regex=True)
 
     numeric_cols = [
-        "inde_22",
+        "inde",
         "iaa",
         "ieg",
         "ips",
@@ -30,20 +33,22 @@ def preprocess(df):
         "matem",
         "portug",
         "ingles",
-        "defas"
+        "defas",
+        "idade"
     ]
 
     for col in numeric_cols:
         if col in df.columns:
             df[col] = pd.to_numeric(df[col], errors="coerce")
 
-    # Criar target
-    df["risco_defasagem"] = (df["defas"] > 0).astype(int)
+    df["risco_defasagem"] = (df["defas"] < 0).astype(int)
 
-    # Definir features finais
+    print("\nDistribuição da variável alvo:")
+    print(df["risco_defasagem"].value_counts())
+
     features = [
-        "idade_22",
-        "inde_22",
+        "idade",
+        "inde",
         "iaa",
         "ieg",
         "ips",
@@ -55,6 +60,10 @@ def preprocess(df):
         "ingles",
         "risco_defasagem"
     ]
+
+    missing_cols = [col for col in features if col not in df.columns]
+    if missing_cols:
+        raise ValueError(f"Colunas ausentes: {missing_cols}")
 
     df = df[features]
 

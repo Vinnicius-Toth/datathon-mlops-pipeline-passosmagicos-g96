@@ -7,7 +7,7 @@ router = APIRouter()
 
 
 class PredictionRequest(BaseModel):
-    idade_22: float = Field(
+    idade: float = Field(
         ...,
         description="Idade do aluno no ano de referência.",
         example=17,
@@ -15,7 +15,7 @@ class PredictionRequest(BaseModel):
         le=25
     )
 
-    inde_22: float = Field(
+    inde: float = Field(
         ...,
         description="Índice de Desenvolvimento Educacional (métrica agregada).",
         example=7.1,
@@ -115,8 +115,8 @@ def predict(
                 "summary": "🟢 Baixo risco de defasagem",
                 "description": "Aluno com bom desempenho acadêmico e bons indicadores.",
                 "value": {
-                    "idade_22": 17,
-                    "inde_22": 8.5,
+                    "idade": 17,
+                    "inde": 8.5,
                     "iaa": 9.0,
                     "ieg": 8.5,
                     "ips": 8.0,
@@ -132,8 +132,8 @@ def predict(
                 "summary": "🔴 Alto risco de defasagem",
                 "description": "Aluno com baixo desempenho acadêmico e indicadores críticos.",
                 "value": {
-                    "idade_22": 17,
-                    "inde_22": 4.2,
+                    "idade": 17,
+                    "inde": 4.2,
                     "iaa": 4.0,
                     "ieg": 3.5,
                     "ips": 5.0,
@@ -154,8 +154,10 @@ def predict(
     df = pd.DataFrame([payload.dict()])
     df = df[model.feature_names_in_]
 
-    prediction = model.predict(df)[0]
+    THRESHOLD = 0.30
+
     probability = model.predict_proba(df)[0][1]
+    prediction = int(probability >= THRESHOLD)
 
     return PredictionResponse(
         risco_defasagem=int(prediction),
