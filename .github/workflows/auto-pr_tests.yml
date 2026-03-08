@@ -1,0 +1,44 @@
+name: Tests + Auto PR
+
+on:
+  push:
+    branches:
+      - "feature/**"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: |
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+
+      - run: pytest --cov=lambdas --cov-fail-under=80
+
+  create-pr:
+    needs: test
+    if: success()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GH_PAT }}
+          base: main
+          branch: ${{ github.ref_name }}
+          title: "Feature: ${{ github.ref_name }}"
+          body: |
+            PR criada automaticamente após testes com cobertura ≥ 80%.

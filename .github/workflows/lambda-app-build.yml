@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "app_services/lambda/**"
+      - "app_services/lambda_etl/**"
 
 jobs:
   build-lambda:
@@ -27,10 +27,10 @@ jobs:
 
       - name: Build Lambda package
         run: |
-          cd app_services/lambda
+          cd app_services/lambda_etl
           zip -r handler.zip .
 
       - name: Upload to S3
         run: |
-          aws s3 cp app_services/lambda/handler.zip \
-            s3://mlops-pipeline-passosmagicos-artifacts/lambda/handler.zip
+          aws s3 cp app_services/lambda_etl/handler.zip \
+            s3://mlops-pipeline-passosmagicos-artifacts/lambda_etl/handler.zip

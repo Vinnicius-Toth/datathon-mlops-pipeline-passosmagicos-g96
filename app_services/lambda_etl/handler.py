@@ -1,5 +1,5 @@
 import awswrangler as wr
-from feature_engineering import preprocess
+from .feature_engineering import preprocess
 
 
 def lambda_handler(event, context):
