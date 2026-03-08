@@ -30,6 +30,7 @@ module "lambda" {
   lambda_role_arn     = module.iam.lambda_role_arn
   lambda_code_bucket  = "mlops-pipeline-passosmagicos-artifacts"
   lambda_code_key     = "lambda/handler.zip"
+  layers = ["arn:aws:lambda:us-east-2:336392948345:layer:AWSSDKPandas-Python310:29"]
   tags                = local.common_tags
 }
 
