@@ -33,33 +33,15 @@ resource "aws_iam_policy" "lambda_s3_policy" {
         Action = [
           "s3:ListBucket",
           "s3:GetBucketLocation",
+          "s3:GetObject",
           "s3:GetBucketPolicy",
           "s3:DeleteObject",
+          "s3:PutObject",
           "s3:ListBucketVersions"
 
         ]
         Resource = [
-          "arn:aws:s3:::mlops-pipeline-passosmagicos-prod-raw",
-          "arn:aws:s3:::mlops-pipeline-passosmagicos-prod-gold"
-        ]
-      },
-
-      {
-        Effect = "Allow"
-        Action = [
-          "s3:GetObject"
-        ]
-        Resource = [
-          "arn:aws:s3:::mlops-pipeline-passosmagicos-prod-raw/*"
-        ]
-      },
-
-      {
-        Effect = "Allow"
-        Action = [
-          "s3:PutObject"
-        ]
-        Resource = [
+          "arn:aws:s3:::mlops-pipeline-passosmagicos-prod-raw/*",
           "arn:aws:s3:::mlops-pipeline-passosmagicos-prod-gold/*"
         ]
       }
