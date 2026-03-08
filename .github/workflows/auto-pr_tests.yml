@@ -19,8 +19,8 @@ jobs:
       - run: |
           pip install -r requirements-test.txt
 
-      - run: pytest --cov=lambdas --cov-fail-under=80
-
+      - run: pytest --cov=app_services --cov-report=term --cov-fail-under=80
+      
   create-pr:
     needs: test
     if: success()
