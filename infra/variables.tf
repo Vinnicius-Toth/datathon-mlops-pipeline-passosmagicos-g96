@@ -3,7 +3,7 @@ variable "aws_region" {
 }
 
 variable "project_name" {
-  default = "mlops-pipeline-passosmagicos"
+  default = "mlops-pipeline-passosmagicos-g96"
 }
 
 variable "ami_id" {
