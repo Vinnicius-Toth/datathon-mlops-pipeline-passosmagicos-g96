@@ -10,5 +10,6 @@ resource "aws_lambda_function" "this" {
   memory_size = 1024
   timeout = 300
 
+  layers = var.layers
   tags = var.tags
 }
