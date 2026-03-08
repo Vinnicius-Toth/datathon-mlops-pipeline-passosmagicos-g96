@@ -6,18 +6,18 @@ router = APIRouter()
 
 
 class PredictionRequest(BaseModel):
-    ANO: int
-    Idade_22: float
-    INDE_22: float
-    IAA: float
-    IEG: float
-    IPS: float
-    IDA: float
-    IPV: float
-    IAN: float
-    Matem: float
-    Portug: float
-    Ingles: float
+    ano: int
+    idade_22: float
+    inde_22: float
+    iaa: float
+    ieg: float
+    ips: float
+    ida: float
+    ipv: float
+    ian: float
+    matem: float
+    portug: float
+    ingles: float
 
 
 @router.get("/")
