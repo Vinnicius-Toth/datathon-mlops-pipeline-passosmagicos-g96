@@ -1,7 +1,7 @@
 BUCKET_GOLD = "mlops-pipeline-passosmagicos-prod-gold"
 BUCKET_MODEL = "mlops-pipeline-passosmagicos-prod-models"
 
-TARGET = "RISCO_DEFASAGEM"
+TARGET = "risco_defasagem"
 
 TEST_SIZE = 0.2
 RANDOM_STATE = 42
