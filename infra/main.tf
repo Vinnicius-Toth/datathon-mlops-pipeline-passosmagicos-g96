@@ -38,11 +38,11 @@ resource "aws_lambda_permission" "allow_s3" {
   action        = "lambda:InvokeFunction"
   function_name = module.lambda.lambda_name
   principal     = "s3.amazonaws.com"
-  source_arn    = module.s3.raw_bucket_arn
+  source_arn    = module.aws_s3_bucket.raw_bucket_arn
 }
 
 resource "aws_s3_bucket_notification" "raw_trigger" {
-  bucket = module.s3.raw_bucket_id
+  bucket = module.aws_s3_bucket.raw_bucket_id
 
   lambda_function {
     lambda_function_arn = module.lambda.lambda_arn
