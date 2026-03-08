@@ -5,6 +5,7 @@ from datetime import datetime
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 
+
 from config import (
     BUCKET_MODEL,
     TARGET,
