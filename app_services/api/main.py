@@ -1,18 +1,33 @@
 from fastapi import FastAPI
 import joblib
-import os
+from routes.predict import router as predict_router
+from routes.health import router as health_router
 
-from routes import router
+app = FastAPI(
+    title="Passos Mágicos - Modelo de Risco de Defasagem",
+    description="""
+API para predição do risco de defasagem escolar.
 
-MODEL_PATH = os.path.join("model", "model_latest.joblib")
+O modelo foi treinado com dados históricos de desempenho educacional
+e retorna a probabilidade de um aluno apresentar defasagem acadêmica.
 
-app = FastAPI(title="Passos Mágicos - ML API")
+Arquitetura:
+- Feature Engineering via Lambda
+- Treinamento automatizado
+- Modelo Random Forest
+- Deploy via Docker
+""",
+    version="1.0.0",
+    contact={
+        "name": "Vinnicius Toth",
+        "email": "vinni.toth@gmail.com"
+    }
+)
 
-print("Carregando modelo...")
-model = joblib.load(MODEL_PATH)
-print("Modelo carregado com sucesso.")
+@app.on_event("startup")
+def load_model():
+    app.state.model = joblib.load("model/model_latest.joblib")
 
-# injeta modelo nas rotas
-app.state.model = model
-
-app.include_router(router)
+# incluir rotas
+app.include_router(predict_router)
+app.include_router(health_router)
