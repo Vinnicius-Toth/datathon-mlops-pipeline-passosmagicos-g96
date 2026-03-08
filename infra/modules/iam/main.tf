@@ -31,7 +31,12 @@ resource "aws_iam_policy" "lambda_s3_policy" {
       {
         Effect = "Allow"
         Action = [
-          "s3:ListBucket"
+          "s3:ListBucket",
+          "s3:GetBucketLocation",
+          "s3:GetBucketPolicy",
+          "s3:DeleteObject",
+          "s3:ListBucketVersions"
+
         ]
         Resource = [
           "arn:aws:s3:::mlops-pipeline-passosmagicos-prod-raw",
