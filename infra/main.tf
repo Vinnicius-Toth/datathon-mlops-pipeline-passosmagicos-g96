@@ -6,7 +6,7 @@ module "s3" {
   tags         = local.common_tags
 
   lambda_arn                   = module.lambda.lambda_arn
-  lambda_permission_dependency  = aws_lambda_permission.allow_s3
+  aws_lambda_permission  = aws_lambda_permission.allow_s3
 }
 
 module "vpc" {
